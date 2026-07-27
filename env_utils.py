@@ -5,15 +5,15 @@ Shared helpers for the pipeline scripts:
   regardless of the caller's current working directory, and merges it with
   real environment variables (`os.environ` wins if a var is set in both).
 - get_env(name, required=False): fetch a single var with a clear error.
-- new_ssl_context(): a properly verifying SSL context for all outbound
-  HTTPS calls (Buffer, OpenRouter, Gemini, Apify, Reddit, RSS feeds).
+- new_ssl_context(): a properly verifying SSL context for Buffer and RSS
+  requests.
 
 Previously each script duplicated a hand-rolled `.env` parser (all assuming
-the script is launched from inside `daily-linkedin-posts-pipeline/`, which
+the script is launched from inside the project directory, which
 silently breaks if run from elsewhere) and each also created an SSL context
 with `check_hostname = False` / `verify_mode = CERT_NONE`, which disables
 certificate validation entirely and exposes every API key sent over HTTPS
-(Buffer, OpenRouter, Gemini, Apify) to man-in-the-middle interception.
+(Buffer) to man-in-the-middle interception.
 This module fixes both issues in one place.
 """
 
